@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import sqlite3
+import os
 from pathlib import Path
 
 app = Flask(__name__)
-app.secret_key = "change-this-secret-key"
+app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret-key")
 DB_PATH = Path(__file__).with_name("airport.db")
 RUNWAY_COUNT = 3
 
@@ -175,6 +176,12 @@ def bst_search():
     found = q in tree["inorder"]
     return jsonify({"id": q, "found": found, "message": "Aircraft ID exists in the waiting-list BST" if found else "Aircraft ID not found in the waiting-list BST"})
 
+# Initialize database when the application starts
+init_db()
+
 if __name__ == "__main__":
-    init_db()
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=False
+    )
