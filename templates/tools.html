@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block heading %}Algorithms & search{% endblock %}{% block content %}
+<div class="grid two"><section class="panel"><div class="panel-head"><div><span class="eyebrow">SORTING ALGORITHM</span><h2>Merge Sort result</h2><p class="sub">Same comparison order as the original C++ project.</p></div><span class="tag">O(n log n)</span></div>
+<div class="tool-list">{% for a in sorted_aircraft %}<div class="tool-row"><span class="rank">{{ loop.index }}</span><b>{{ a.id }}</b><span>{{ a.operation }}</span><span class="priority p{{ a.priority }}">P{{ a.priority }}</span></div>{% else %}<p class="empty">No aircraft to sort.</p>{% endfor %}</div></section>
+<section class="panel"><div class="panel-head"><div><span class="eyebrow">BINARY SEARCH TREE</span><h2>BST traversals</h2><p class="sub">Tree rebuilt from aircraft currently waiting.</p></div><span class="tag">BST</span></div>
+{% for label,values in traversals.items() %}<div class="traversal"><b>{{ label|title }}</b><p>{{ values|join('  ·  ') if values else 'Empty tree' }}</p></div>{% endfor %}
+<div class="search-box"><label>Search aircraft ID in BST<input id="bst-id" placeholder="Enter aircraft ID"></label><button class="btn primary" onclick="searchBST()">Search BST</button><p id="bst-result" class="search-result"></p></div></section></div>
+<section class="panel"><div class="panel-head"><div><span class="eyebrow">AIRCRAFT LOOKUP</span><h2>Search waiting queue</h2><p class="sub">Searches the current waiting list by exact aircraft ID.</p></div></div><div class="search-inline"><input id="search-id" placeholder="e.g. AI202"><button class="btn primary" onclick="searchAircraft()">Search aircraft</button></div><pre id="search-result" class="result-card">Search results will appear here.</pre></section>
+<script>
+async function searchBST(){const id=document.getElementById('bst-id').value;const r=await fetch('/api/bst/search?id='+encodeURIComponent(id));const d=await r.json();document.getElementById('bst-result').textContent=d.message;}
+async function searchAircraft(){const id=document.getElementById('search-id').value;const r=await fetch('/api/aircraft/search?id='+encodeURIComponent(id));const d=await r.json();document.getElementById('search-result').textContent=r.ok?JSON.stringify(d,null,2):d.error;}
+</script>{% endblock %}

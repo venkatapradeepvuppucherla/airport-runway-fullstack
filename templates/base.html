@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Airport Runway Control</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><aside class="sidebar"><div class="brand"><span class="brand-icon">✈</span><div><b>SKYCONTROL</b><small>Airport operations</small></div></div>
+<nav><a href="{{ url_for('dashboard') }}">▦ &nbsp; Dashboard</a><a href="{{ url_for('tools_page') }}">⌘ &nbsp; Algorithms & Search</a></nav>
+<div class="side-note"><span class="pulse"></span> SYSTEM ONLINE<small>Local demo environment</small></div></aside>
+<main class="main"><header><div><span class="eyebrow">OPERATIONS CENTER</span><h1>{% block heading %}Runway dashboard{% endblock %}</h1></div><div class="header-right"><span class="live-dot"></span> Live local data</div></header>
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flashes">{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}<footer>Airport Runway Scheduling System · Academic project demo · Not for real-world air traffic control</footer></main></body></html>
